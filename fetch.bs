@@ -3139,7 +3139,7 @@ steps:
  <!-- https://chromium.googlesource.com/chromium/src/+/master/net/http/http_network_transaction.cc#982 -->
 
  <li><p>If <var>httpRequest</var>'s <a for=request>body</a> is non-null and <var>httpRequest</var>'s
- <a for=request>body</a>'s <a for=request>source</a> is non-null, then set
+ <a for=request>body</a>'s <a for=body>source</a> is non-null, then set
  <var>contentLengthValue</var> to <var>httpRequest</var>'s <a for=request>body</a>'s
  <a for=body>total bytes</a>, <a>UTF-8 encoded</a>.
 
@@ -3494,7 +3494,7 @@ steps:
 
  <li><p>If <var>connection</var> is not an HTTP/2 connection, <var>request</var>'s
  <a for=request>body</a> is non-null, and <var>request</var>'s <a for=request>body</a>'s
- <a for=request>source</a> is null, then <a for="header list">append</a>
+ <a for=body>source</a> is null, then <a for="header list">append</a>
  `<code>Transfer-Encoding</code>`/`<code>chunked</code>` to <var>request</var>'s
  <a for=request>header list</a>.
 
@@ -4873,8 +4873,13 @@ constructor must run these steps:
    <a for=Headers>guard</a> to "<code>request-no-cors</code>".
   </ol>
 
- <li><p><a lt=fill for=Headers>Fill</a> <var>r</var>'s
- {{Headers}} object with <var>headers</var>. Rethrow any exceptions.
+ <li><p>If <var>headers</var> is a <code>Headers</code> object, then for each <var>header</var> in
+ its <a for=Headers>header list</a>, retaining order, <a for=Headers>append</a> <var>header</var>'s
+ <a for=header>name</a>/<var>header</var>'s <a for=header>value</a> to <var>r</var>'s {{Headers}}
+ object. Rethrow any exception.
+
+ <li><p>Otherwise, <a for=Headers>fill</a> <var>r</var>'s {{Headers}} object with
+ <var>headers</var>. Rethrow any exceptions.
 
  <li><p>Let <var>inputBody</var> be <var>input</var>'s
  <a for=Request>request</a>'s <a for=request>body</a>
